@@ -39,9 +39,11 @@ module.exports = (app) => {
   );
 
   // CORS MIDDLEWARE INSIDE module.exports TO ALLOW CROSS-ORIGIN INTERACTION:
-  app.use(
-    cors({
-      origin: [process.env.FRONTEND_URL, "http://192.168.0.145:5173"],
-    })
-  );
+  // app.use(
+  //   cors({
+  //     origin: [process.env.FRONTEND_URL, "http://192.168.0.145:5173"],
+  //   })
+  // );
+  // Allow All Domains with cors()
+  app.use(cors());
 };
