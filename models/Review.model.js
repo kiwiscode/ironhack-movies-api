@@ -1,30 +1,31 @@
 const { Schema, model } = require("mongoose");
 
-const reviewSchema = new Schema({
-  movie: {
-    type: Schema.Types.ObjectId,
-    ref: "Movie",
-    required: true,
+const reviewSchema = new Schema(
+  {
+    movie: {
+      type: Schema.Types.ObjectId,
+      ref: "Movie",
+      required: true,
+    },
+    reviewer: {
+      type: String,
+      trim: true,
+    },
+    rating: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 10,
+    },
+    comment: {
+      type: String,
+      trim: true,
+    },
   },
-  reviewer: {
-    type: String,
-    trim: true,
-  },
-  rating: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 10,
-  },
-  comment: {
-    type: String,
-    trim: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Review = model("Review", reviewSchema);
 
