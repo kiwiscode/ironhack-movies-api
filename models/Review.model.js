@@ -27,6 +27,22 @@ const reviewSchema = new Schema(
   }
 );
 
+reviewSchema.post("save", async function () {
+  const Movie = require("../models/Movie.model");
+  const movie = await Movie.findById(this.movie);
+  if (movie) {
+    await movie.updateAverageRating();
+  }
+});
+
+reviewSchema.post("remove", async function () {
+  const Movie = require("../models/Movie.model");
+  const movie = await Movie.findById(this.movie);
+  if (movie) {
+    await movie.updateAverageRating();
+  }
+});
+
 const Review = model("Review", reviewSchema);
 
 module.exports = Review;
