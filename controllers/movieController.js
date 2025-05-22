@@ -5,10 +5,15 @@ exports.getAllMovies = async (req, res) => {
   try {
     const { genre, sortBy, order } = req.query;
     const query = {};
-    if (genre) query.genre = genre;
+
+    if (genre) {
+      const formattedGenre =
+        genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase();
+      query.genre = formattedGenre;
+    }
 
     let sortOption = {};
-    const sortOrder = order === "asc" ? 1 : -1; // as default desc (-1)
+    const sortOrder = order === "asc" ? 1 : -1;
 
     if (sortBy === "releaseDate") sortOption.year = sortOrder;
     if (sortBy === "rating") sortOption.rating = sortOrder;
