@@ -408,11 +408,11 @@ mongoose
   .connect(MONGODB_URL)
   .then(async (x) => {
     const databaseName = x.connections[0].name;
-    await Movie.deleteMany();
-    await Review.deleteMany();
-    await Movie.insertMany(movies);
-    console.log("Movies seeded successfully!");
-    addRandomReviewsToMovies();
+    // await Movie.deleteMany();
+    // await Review.deleteMany();
+    // await Movie.insertMany(movies);
+    // addRandomReviewsToMovies();
+    // console.log("Movies seeded successfully!");
     console.log(`Mongoose connected ${databaseName}`);
   })
   .catch((err) => {
