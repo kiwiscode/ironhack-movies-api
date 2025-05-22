@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const Movie = require("../models/Movie.model");
+const Review = require("../models/Review.model");
 
 const movies = [
   {
@@ -362,6 +363,44 @@ const movies = [
   },
 ];
 
+async function addRandomReviewsToMovies() {
+  try {
+    const movies = await Movie.find();
+
+    for (const movie of movies) {
+      const reviewCount = Math.floor(Math.random() * 5) + 1;
+      const reviewIds = [];
+
+      for (let i = 0; i < reviewCount; i++) {
+        const reviewerName = `Reviewer_${Math.floor(Math.random() * 1000)}`;
+        const rating = (Math.random() * 10).toFixed(1);
+        const comment = `This is a random comment ${Math.floor(
+          Math.random() * 10000
+        )}`;
+
+        const review = new Review({
+          movie: movie._id,
+          reviewer: reviewerName,
+          rating: Number(rating),
+          comment,
+        });
+
+        const savedReview = await review.save();
+        reviewIds.push(savedReview._id);
+      }
+
+      movie.reviews = movie.reviews.concat(reviewIds);
+      await movie.save();
+
+      console.log(`Added ${reviewCount} reviews to movie: ${movie.title}`);
+    }
+
+    await mongoose.disconnect();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 // database url
 const MONGODB_URL = process.env.MONGODB_URL;
 
@@ -372,6 +411,7 @@ mongoose
     // await Movie.deleteMany();
     // await Movie.insertMany(movies);
     // console.log("Movies seeded successfully!");
+    addRandomReviewsToMovies();
     console.log(`Mongoose connected ${databaseName}`);
   })
   .catch((err) => {
