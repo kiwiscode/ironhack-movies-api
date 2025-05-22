@@ -373,7 +373,7 @@ async function addRandomReviewsToMovies() {
 
       for (let i = 0; i < reviewCount; i++) {
         const reviewerName = `Reviewer_${Math.floor(Math.random() * 1000)}`;
-        const rating = (Math.random() * 10).toFixed(1);
+        const rating = Math.floor(Math.random() * 10) + 1;
         const comment = `This is a random comment ${Math.floor(
           Math.random() * 10000
         )}`;
@@ -408,9 +408,10 @@ mongoose
   .connect(MONGODB_URL)
   .then(async (x) => {
     const databaseName = x.connections[0].name;
-    // await Movie.deleteMany();
-    // await Movie.insertMany(movies);
-    // console.log("Movies seeded successfully!");
+    await Movie.deleteMany();
+    await Review.deleteMany();
+    await Movie.insertMany(movies);
+    console.log("Movies seeded successfully!");
     addRandomReviewsToMovies();
     console.log(`Mongoose connected ${databaseName}`);
   })
