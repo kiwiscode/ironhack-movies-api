@@ -20,7 +20,7 @@ exports.getAllMovies = async (req, res) => {
 
     console.log("Genre:", genre, "SortBy:", sortBy, "Order:", order);
 
-    const movies = await Movie.find(query).sort(sortOption);
+    const movies = await Movie.find(query).sort(sortOption).populate("reviews");
     res.json(movies);
   } catch (err) {
     res.status(500).json({ message: err.message });

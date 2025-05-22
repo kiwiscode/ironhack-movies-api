@@ -4,6 +4,9 @@ require("dotenv").config();
 const Movie = require("../models/Movie.model");
 const Review = require("../models/Review.model");
 
+// database url
+const MONGODB_URL = process.env.MONGODB_URL;
+
 const movies = [
   {
     id: 1,
@@ -400,9 +403,6 @@ async function addRandomReviewsToMovies() {
     console.error(err);
   }
 }
-
-// database url
-const MONGODB_URL = process.env.MONGODB_URL;
 
 mongoose
   .connect(MONGODB_URL)
