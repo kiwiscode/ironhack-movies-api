@@ -10,9 +10,14 @@ exports.createReview = async (req, res) => {
     const review = new Review({ reviewer, rating, comment, movie: movieId });
     await review.save();
 
-    // push to movie
+    // push to movie to the first position
     await Movie.findByIdAndUpdate(movieId, {
-      $push: { reviews: review._id },
+      $push: {
+        reviews: {
+          $each: [review._id],
+          $position: 0,
+        },
+      },
     });
 
     res.status(201).json(review);
